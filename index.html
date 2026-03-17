@@ -8,111 +8,39 @@
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-        /* Gold and blush accents */
-        .gold {
-          color: #C2B280;
-        }
-        .gold-bg {
-          background: linear-gradient(90deg, #fff 0%, #C2B280 100%);
-        }
-        .gold-border {
-          border: 1px solid #C2B280;
-        }
-        .gold-shadow {
-          box-shadow: 0 4px 24px 0 #C2B28044;
-        }
-        .card-gradient {
-          background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
-        }
-        .product-card {
-          transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
-          border-radius: 1.5rem;
-          background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
-          box-shadow: 0 8px 32px 0 #C2B28033, 0 2px 8px 0 #F6D1D1aa;
-        }
-        .product-card:hover {
-          box-shadow: 0 16px 48px 0 #FFD70066, 0 4px 16px 0 #F6D1D1cc;
-          transform: scale(1.03);
-        }
-        .product-img {
-          border-radius: 1rem;
-          border: none;
-          box-shadow: 0 4px 16px 0 #F6D1D144;
-        }
-        .product-info {
-          background: rgba(255,255,255,0.85);
-          border-radius: 1rem;
-          margin-top: -2rem;
-          padding: 1rem 0.5rem;
-          box-shadow: 0 2px 8px 0 #F6D1D1aa;
-        }
-        @media (max-width: 640px) {
-          .product-card {
-            border-radius: 1rem;
-            margin-bottom: 1.5rem;
-          }
-          .product-img {
-            height: 10rem !important;
-          }
-          .product-info {
-            margin-top: -1rem;
-            padding: 0.5rem 0.25rem;
-          }
-        }
-    body {
-      font-family: 'Inter', Helvetica, Arial, sans-serif;
-      background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%);
+    /* Gold and blush accents */
+    .gold { color: #C2B280; }
+    .gold-bg { background: linear-gradient(90deg, #fff 0%, #C2B280 100%); }
+    .gold-border { border: 1px solid #C2B280; }
+    .gold-shadow { box-shadow: 0 4px 24px 0 #C2B28044; }
+    .card-gradient { background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%); }
+    .product-card {
+      transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
+      box-shadow: 0 8px 32px 0 #C2B28033, 0 2px 8px 0 #F6D1D1aa;
     }
-    .lux-heading {
-      font-family: 'Playfair Display', 'Cinzel', serif;
-      letter-spacing: 0.02em;
-    }
-    .lux-body {
-      font-family: 'Inter', Helvetica, Arial, sans-serif;
-    }
-    .parallax-bg {
-      background: url('https://images.unsplash.com/photo-1517841905240-472c3c3d7c93?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
-      background-attachment: fixed;
-    }
-    .modal-open {
-      overflow: hidden;
-    }
-    .modal {
-      transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
-    }
-    .modal.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-    .modal.hide {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    .cta-pulse {
-      animation: ctaPulse 3.5s infinite;
-    }
-    @keyframes ctaPulse {
-      0%, 100% { box-shadow: 0 0 0 0 #F6D1D1; }
-      50% { box-shadow: 0 0 16px 4px #F6D1D1; }
-    }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1);
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .product-card:hover {
+      box-shadow: 0 16px 48px 0 #FFD70066, 0 4px 16px 0 #F6D1D1cc;
+      transform: scale(1.03);
     }
     .product-img {
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s cubic-bezier(.4,0,.2,1);
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 4px 16px 0 #F6D1D144;
+      transition: transform 0.4s, box-shadow 0.4s;
     }
     .product-card:hover .product-img {
       transform: scale(1.05);
       box-shadow: 0 8px 32px 0 #F6D1D1aa;
     }
     .product-info {
-      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
+      background: rgba(255,255,255,0.85);
+      border-radius: 1rem;
+      margin-top: -2rem;
+      padding: 1rem 0.5rem;
+      box-shadow: 0 2px 8px 0 #F6D1D1aa;
+      transition: transform 0.4s, opacity 0.4s;
       transform: translateY(24px);
       opacity: 0;
     }
@@ -120,365 +48,132 @@
       transform: translateY(0);
       opacity: 1;
     }
-    .btn {
-      transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1);
-    }
-    .btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 16px 0 #F6D1D1aa;
-    }
-    .btn:active {
-      transform: scale(0.97);
-      box-shadow: 0 2px 8px 0 #F6D1D1aa;
-    }
-    .newsletter:focus {
-      box-shadow: 0 0 0 2px #F6D1D1, 0 0 16px 4px #fff;
-      outline: none;
-      transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1);
-    }
-    .social-icon {
-      transition: color 0.3s cubic-bezier(.4,0,.2,1);
-      color: #222;
-    }
-    .social-icon:hover {
-      color: #F6D1D1;
-    }
+    body { font-family: 'Inter', Helvetica, Arial, sans-serif; background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%); }
+    .lux-heading { font-family: 'Playfair Display', 'Cinzel', serif; letter-spacing: 0.02em; }
+    .lux-body { font-family: 'Inter', Helvetica, Arial, sans-serif; }
+    .parallax-bg { background: url('https://images.unsplash.com/photo-1517841905240-472c3c3d7c93?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat; background-attachment: fixed; }
+    .modal-open { overflow: hidden; }
+    .modal { transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1); }
+    .modal.show { opacity: 1; transform: scale(1); }
+    .modal.hide { opacity: 0; transform: scale(0.95); }
+    .cta-pulse { animation: ctaPulse 3.5s infinite; }
+    @keyframes ctaPulse { 0%, 100% { box-shadow: 0 0 0 0 #F6D1D1; } 50% { box-shadow: 0 0 16px 4px #F6D1D1; } }
+    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.6s, transform 0.6s; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .btn { transition: transform 0.3s, box-shadow 0.3s; }
+    .btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px 0 #F6D1D1aa; }
+    .btn:active { transform: scale(0.97); box-shadow: 0 2px 8px 0 #F6D1D1aa; }
+    .newsletter:focus { box-shadow: 0 0 0 2px #F6D1D1, 0 0 16px 4px #fff; outline: none; transition: box-shadow 0.4s; }
+    .social-icon { transition: color 0.3s; color: #222; }
+    .social-icon:hover { color: #F6D1D1; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-white text-black">
-    <!-- Admin Panel Button -->
-    <button id="adminBtn" class="fixed bottom-20 right-6 z-40 btn bg-gray-900 text-white rounded-full shadow-xl flex items-center px-6 py-3 lux-body text-lg">Admin</button>
 
-    <!-- Minimalist Admin Panel Modal -->
-    <div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 modal hide" style="display:none;">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full relative lux-body">
-        <button id="closeAdminModal" class="absolute top-4 right-4 btn bg-gray-200 text-black px-4 py-2 rounded-full">&times;</button>
-        <div class="lux-heading text-2xl font-semibold mb-6 text-center">Add Product</div>
-        <form id="adminForm" class="flex flex-col gap-4">
-          <input type="text" id="adminName" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Product Name" required />
-          <input type="text" id="adminPrice" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Price (TZS)" required />
-          <input type="text" id="adminImage" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Image URL" required />
-          <input type="text" id="adminDesc" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Description" required />
-          <button class="btn bg-gray-900 text-white rounded-full px-6 py-2 font-semibold lux-body">Add Product</button>
-        </form>
-      </div>
-    </div>
-  <!-- Hero Section -->
-  <section class="relative parallax-bg h-[70vh] flex items-center justify-center">
-    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
-    <div class="relative z-10 text-center fade-in lux-heading">
-      <!-- Animated GIF of shoes walking, then logo reveal -->
-      <div class="flex flex-col items-center justify-center">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2Fsa2luZy1zaG9lcy1naWZfYXJ0L2xvZ28tZmlubG9nby9zaGVzdGVwcy9zaG9lcy1sb2dvLmdpZg/giphy.gif" alt="Shoes Walking Animation" class="mx-auto mb-4 w-48 md:w-72 rounded-xl shadow-2xl border-4 border-white animate-fadeInLogo" style="animation: fadeInLogo 3s ease-in-out forwards;" />
-        <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 logo-fade lux-heading" style="opacity:0;animation: logoReveal 3s 2.5s forwards;">She Steps</h1>
-      </div>
-      <p class="text-2xl md:text-4xl text-white mb-8">Step into Luxury</p>
-      <button id="shopBtn" class="btn cta-pulse px-8 py-3 rounded-full bg-white text-black font-semibold text-lg shadow-lg lux-body">Shop Collection</button>
-    </div>
-    <style>
-      @keyframes fadeInLogo {
-        0% { opacity: 0; transform: translateY(-40px); }
-        100% { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes logoReveal {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-    </style>
-  </section>
+<!-- Admin Panel Button -->
+<button id="adminBtnTop" class="fixed bottom-20 right-6 z-40 btn bg-gray-900 text-white rounded-full flex items-center px-6 py-3 lux-body text-lg">Admin</button>
 
-  <!-- Product Grid -->
-  <section id="collection" class="py-16 bg-white fade-in">
-    <div class="max-w-6xl mx-auto px-4">
-      <h2 class="lux-heading text-3xl md:text-5xl font-bold text-center mb-12">Our Signature Collection</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10" id="productGrid">
-        <!-- Product cards will be rendered by JS -->
-      </div>
-    </div>
-  </section>
+<!-- Minimalist Admin Panel Modal -->
+<div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 modal hide" style="display:none;">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full relative lux-body">
+    <button id="closeAdminModal" class="absolute top-4 right-4 btn bg-gray-200 text-black px-4 py-2 rounded-full">&times;</button>
+    <div class="lux-heading text-2xl font-semibold mb-6 text-center">Add Product</div>
+    <form id="adminForm" class="flex flex-col gap-4">
+      <input type="text" id="adminName" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Product Name" required />
+      <input type="text" id="adminPrice" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Price (TZS)" required />
+      <input type="text" id="adminImage" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Image URL" required />
+      <input type="text" id="adminDesc" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Description" required />
+      <button class="btn bg-gray-900 text-white rounded-full px-6 py-2 font-semibold lux-body">Add Product</button>
+    </form>
+  </div>
+</div>
 
-  <!-- About Section -->
-  <section class="py-16 bg-[#F6D1D1] fade-in">
-    <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="lux-heading text-3xl md:text-5xl font-bold mb-6">About She Steps</h2>
-      <p class="lux-body text-lg md:text-xl text-gray-700">She Steps is where elegance meets artistry. Our shoes are crafted for women who demand the finest, blending heavenly comfort with couture design. Step into a world of luxury, exclusivity, and timeless beauty.</p>
+<!-- Hero Section -->
+<section class="relative parallax-bg h-[70vh] flex items-center justify-center">
+  <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+  <div class="relative z-10 text-center fade-in lux-heading">
+    <div class="flex flex-col items-center justify-center">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2Fsa2luZy1zaG9lcy1naWZfYXJ0L2xvZ28tZmlubG9nby9zaGVzdGVwcy9zaG9lcy1sb2dvLmdpZg/giphy.gif" alt="Shoes Walking Animation" class="mx-auto mb-4 w-48 md:w-72 rounded-xl shadow-2xl border-4 border-white animate-fadeInLogo" style="animation: fadeInLogo 3s ease-in-out forwards;" />
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 logo-fade lux-heading" style="opacity:0;animation: logoReveal 3s 2.5s forwards;">She Steps</h1>
     </div>
-  </section>
+    <p class="text-2xl md:text-4xl text-white mb-8">Step into Luxury</p>
+    <button id="shopBtn" class="btn cta-pulse px-8 py-3 rounded-full bg-white text-black font-semibold text-lg shadow-lg lux-body">Shop Collection</button>
+  </div>
+</section>
 
-  <!-- Contact Section -->
-  <section class="py-16 bg-white fade-in">
-    <div class="max-w-3xl mx-auto px-4 text-center">
-      <h2 class="lux-heading text-3xl md:text-5xl font-bold mb-6">Contact & Boutique</h2>
-      <p class="lux-body text-lg md:text-xl text-gray-700 mb-6">Visit our flagship boutique or reach out for bespoke orders. We’re here to make your luxury experience unforgettable.</p>
-      <form class="flex flex-col md:flex-row items-center justify-center gap-4">
-        <input type="email" class="newsletter px-6 py-3 rounded-full border border-gray-300 lux-body text-lg focus:outline-none" placeholder="Your email for exclusive updates" />
-        <button class="btn px-8 py-3 rounded-full bg-[#F6D1D1] text-black font-semibold text-lg shadow-lg lux-body">Subscribe</button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-black text-white py-8 fade-in">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
-      <div class="lux-heading text-xl">She Steps © 2026</div>
-      <div class="flex gap-6 mt-4 md:mt-0 items-center">
-        <a href="#" class="social-icon text-2xl" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="social-icon text-2xl" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="#" class="social-icon text-2xl" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <button id="adminBtn" class="ml-8 btn bg-gray-900 text-white rounded-full shadow-xl flex items-center px-6 py-3 lux-body text-lg">Admin</button>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Product Modal -->
-  <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 modal hide" style="display:none;">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full relative lux-body">
-      <button id="closeModal" class="absolute top-4 right-4 btn bg-[#F6D1D1] text-black px-4 py-2 rounded-full">&times;</button>
-      <div id="modalImages" class="flex justify-center mb-6">
-        <img id="modalImg" src="" alt="Product" class="w-72 h-72 object-cover rounded-xl shadow-lg transition-all" />
-      </div>
-      <div id="modalInfo" class="text-center">
-        <div class="lux-heading text-2xl font-semibold mb-2" id="modalName"></div>
-        <div class="lux-body text-xl text-gray-700 mb-4" id="modalPrice"></div>
-        <div class="lux-body text-md text-gray-600 mb-6" id="modalDesc">Heavenly comfort, couture design. Replace with real product description.</div>
-        <button class="btn px-8 py-3 rounded-full bg-black text-white font-semibold text-lg shadow-lg lux-body">Order</button>
-      </div>
+<!-- Product Grid -->
+<section id="collection" class="py-16 bg-white fade-in">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="lux-heading text-3xl md:text-5xl font-bold text-center mb-12">Our Signature Collection</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10" id="productGrid">
+      <!-- Product cards rendered by JS -->
     </div>
   </div>
+</section>
 
-  <!-- FontAwesome for social icons -->
-  <script src="https://kit.fontawesome.com/2b2e6e7e2a.js" crossorigin="anonymous"></script>
+<!-- Footer + Scripts -->
+<script src="https://kit.fontawesome.com/2b2e6e7e2a.js" crossorigin="anonymous"></script>
+<script>
+let products = []
 
-  <!-- JS Animations & Interactions -->
-  <script>
-        // Minimalist Admin Panel logic
-        document.getElementById('adminBtn').addEventListener('click', () => {
-          const modal = document.getElementById('adminModal');
-          document.body.classList.add('modal-open');
-          modal.style.display = 'flex';
-          setTimeout(() => modal.classList.remove('hide'), 10);
-          modal.classList.add('show');
-        });
-        document.getElementById('closeAdminModal').addEventListener('click', () => {
-          const modal = document.getElementById('adminModal');
-          modal.classList.remove('show');
-          modal.classList.add('hide');
-          setTimeout(() => {
-            modal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-          }, 400);
-        });
-        document.getElementById('adminForm').addEventListener('submit', function(e) {
-          e.preventDefault();
-          const name = document.getElementById('adminName').value;
-          const price = document.getElementById('adminPrice').value;
-          const image = document.getElementById('adminImage').value;
-          const desc = document.getElementById('adminDesc').value;
-          // Send new product to FastAPI backend
-          fetch('http://localhost:3001/products', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: products.length + 1,
-              name,
-              price,
-              image,
-              desc
-            })
-          }).then(res => res.json()).then(prod => {
-            products.push(prod);
-            renderProducts();
-            document.getElementById('closeAdminModal').click();
-            this.reset();
-          });
-        });
-    // Fade-in on load
-    document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.fade-in').forEach((el, i) => {
-        setTimeout(() => {
-          el.classList.add('visible');
-        }, 300 + i * 200);
-      });
-    });
+// Fetch products
+async function fetchProducts() {
+  const res = await fetch('/products') // FIXED localhost
+  products = await res.json()
+  renderProducts()
+}
 
-    // Smooth scroll for CTA
-    document.getElementById('shopBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
-    });
+// Render products
+function renderProducts() {
+  const productGrid = document.getElementById('productGrid')
+  productGrid.innerHTML = products.map((prod, idx) => `
+    <div class="product-card flex flex-col items-center cursor-pointer card-gradient p-4" data-product="${idx}">
+      <img class="product-img w-full h-64 object-cover mb-4" src="${prod.image}" alt="${prod.name}" />
+      <div class="product-info text-center">
+        <div class="lux-heading text-xl font-semibold mb-2 gold">${prod.name}</div>
+        <div class="lux-body text-lg gold">${prod.price}</div>
+        <div class="lux-body text-sm text-gray-700 mt-2">${prod.desc}</div>
+      </div>
+    </div>
+  `).join('')
+}
 
-    // Parallax effect for hero
-    window.addEventListener('scroll', () => {
-      const hero = document.querySelector('.parallax-bg');
-      if (hero) {
-        hero.style.backgroundPositionY = `${window.scrollY * 0.3}px`;
-      }
-    });
+// Admin panel logic
+document.getElementById('adminBtnTop').addEventListener('click', () => {
+  const modal = document.getElementById('adminModal')
+  document.body.classList.add('modal-open')
+  modal.style.display = 'flex'
+  setTimeout(() => modal.classList.remove('hide'), 10)
+  modal.classList.add('show')
+})
+document.getElementById('closeAdminModal').addEventListener('click', () => {
+  const modal = document.getElementById('adminModal')
+  modal.classList.remove('show')
+  modal.classList.add('hide')
+  setTimeout(() => { modal.style.display = 'none'; document.body.classList.remove('modal-open') }, 400)
+})
 
-    // Lazy-load product images with fade-in
-    const lazyImages = document.querySelectorAll('.product-img');
-    const lazyObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          img.style.opacity = 0;
-          img.onload = () => {
-            img.style.transition = 'opacity 0.6s cubic-bezier(.4,0,.2,1)';
-            img.style.opacity = 1;
-          };
-          lazyObserver.unobserve(img);
-        }
-      });
-    }, { threshold: 0.1 });
-    lazyImages.forEach(img => lazyObserver.observe(img));
+// Add product
+document.getElementById('adminForm').addEventListener('submit', function(e) {
+  e.preventDefault()
+  const name = document.getElementById('adminName').value
+  const price = document.getElementById('adminPrice').value
+  const image = document.getElementById('adminImage').value
+  const desc = document.getElementById('adminDesc').value
+  fetch('/products', { // FIXED localhost
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: products.length+1, name, price, image, desc })
+  }).then(res => res.json()).then(prod => {
+    products.push(prod)
+    renderProducts()
+    document.getElementById('closeAdminModal').click()
+    this.reset()
+  })
+})
 
-    // Product modal logic & cart
-    let products = [];
-    // Fetch products from FastAPI backend
-    async function fetchProducts() {
-      const res = await fetch('http://localhost:3001/products');
-      products = await res.json();
-      renderProducts();
-    }
-    // Render product cards
-    const productGrid = document.getElementById('productGrid');
-    function renderProducts() {
-      productGrid.innerHTML = products.map((prod, idx) => `
-        <div class="product-card flex flex-col items-center cursor-pointer card-gradient p-4" data-product="${idx}">
-          <img class="product-img w-full h-64 object-cover mb-4" data-src="${prod.image}" alt="${prod.name}" />
-          <div class="product-info text-center">
-            <div class="lux-heading text-xl font-semibold mb-2 gold">${prod.name}</div>
-            <div class="lux-body text-lg gold">${prod.price}</div>
-            <div class="lux-body text-sm text-gray-700 mt-2">${prod.desc}</div>
-          </div>
-          <button class="btn mt-4 px-6 py-2 rounded-full bg-[#C2B280] text-black font-semibold shadow-lg lux-body add-to-cart">Add to Cart</button>
-        </div>
-      `).join('');
-      // Re-apply lazy loading
-      document.querySelectorAll('.product-img').forEach(img => lazyObserver.observe(img));
-    }
-    fetchProducts();
-
-    // Cart logic
-    let cart = [];
-    function updateCartIcon() {
-      const cartBtn = document.getElementById('cartBtn');
-      cartBtn.querySelector('.cart-count').textContent = cart.length;
-      cartBtn.classList.toggle('bg-[#F6D1D1]', cart.length > 0);
-    }
-    function showCartModal() {
-      const modal = document.getElementById('cartModal');
-      document.body.classList.add('modal-open');
-      modal.style.display = 'flex';
-      setTimeout(() => modal.classList.remove('hide'), 10);
-      modal.classList.add('show');
-      // Render cart items
-      const cartList = document.getElementById('cartList');
-      cartList.innerHTML = cart.length ? cart.map((item, i) => `
-        <div class="flex items-center justify-between py-2 border-b border-gray-200">
-          <div>
-            <div class="lux-heading text-lg">${item.name}</div>
-            <div class="lux-body text-sm text-gray-700">${item.price}</div>
-          </div>
-          <button class="btn px-3 py-1 bg-black text-white rounded-full remove-cart" data-idx="${i}">&times;</button>
-        </div>
-      `).join('') : '<div class="text-center text-gray-500 py-8">Your cart is empty.</div>';
-    }
-    document.body.addEventListener('click', e => {
-      if (e.target.classList.contains('add-to-cart')) {
-        const idx = e.target.closest('.product-card').dataset.product;
-        cart.push(products[idx]);
-        updateCartIcon();
-      }
-      if (e.target.classList.contains('remove-cart')) {
-        const idx = e.target.dataset.idx;
-        cart.splice(idx, 1);
-        updateCartIcon();
-        showCartModal();
-      }
-      if (e.target.id === 'cartBtn') {
-        showCartModal();
-      }
-      if (e.target.id === 'closeCartModal') {
-        const modal = document.getElementById('cartModal');
-        modal.classList.remove('show');
-        modal.classList.add('hide');
-        setTimeout(() => {
-          modal.style.display = 'none';
-          document.body.classList.remove('modal-open');
-        }, 400);
-      }
-    });
-    // Modal for product detail
-    document.querySelectorAll('.product-card').forEach(card => {
-      card.addEventListener('click', e => {
-        if (e.target.classList.contains('add-to-cart')) return;
-        const idx = card.dataset.product;
-        const modal = document.getElementById('productModal');
-        document.body.classList.add('modal-open');
-        modal.style.display = 'flex';
-        setTimeout(() => modal.classList.remove('hide'), 10);
-        modal.classList.add('show');
-        // Fill modal
-        const prod = products[idx];
-        document.getElementById('modalImg').src = prod.images[0];
-        document.getElementById('modalName').textContent = prod.name;
-        document.getElementById('modalPrice').textContent = prod.price;
-        document.getElementById('modalDesc').textContent = prod.desc;
-      });
-    });
-    document.getElementById('closeModal').addEventListener('click', () => {
-      const modal = document.getElementById('productModal');
-      modal.classList.remove('show');
-      modal.classList.add('hide');
-      setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-      }, 400);
-    });
-    document.getElementById('closeModal').addEventListener('click', () => {
-      const modal = document.getElementById('productModal');
-      modal.classList.remove('show');
-      modal.classList.add('hide');
-      setTimeout(() => {
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open');
-      }, 400);
-    });
-
-    // Section fade-in on scroll
-    const fadeSections = document.querySelectorAll('.fade-in');
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15 });
-    fadeSections.forEach(sec => fadeObserver.observe(sec));
-
-    // Smooth anchor scrolling
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  </script>
-
-  <!-- Instructions for shop owner: -->
-  <!--
-    - Replace hero image URL in .parallax-bg with your signature shoe photo
-    - Update product images, names, prices, and descriptions in the JS products array
-    - Replace About/Contact text with your boutique’s story and details
-    - Add real social links in the footer
-    - For more products, duplicate .product-card blocks and add to products array
-    - All images should be high-res, airy, and luxurious
-    - Optional: Add cart/order features later
-  -->
+// Init
+fetchProducts()
+</script>
 </body>
 </html>
