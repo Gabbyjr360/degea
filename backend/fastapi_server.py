@@ -19,6 +19,9 @@ app.add_middleware(
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+
+
 class Product(BaseModel):
     id: int
     name: str
