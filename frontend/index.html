@@ -8,8 +8,67 @@
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Your existing styles remain unchanged — I'm not repeating them here to save space */
-    /* ... (gold, blush, product-card, hover effects, etc.) ... */
+    /* ── Your original styles (unchanged) ── */
+    .gold { color: #C2B280; }
+    .gold-bg { background: linear-gradient(90deg, #fff 0%, #C2B280 100%); }
+    .gold-border { border: 1px solid #C2B280; }
+    .gold-shadow { box-shadow: 0 4px 24px 0 #C2B28044; }
+    .card-gradient { background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%); }
+    .product-card {
+      transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
+      box-shadow: 0 8px 32px 0 #C2B28033, 0 2px 8px 0 #F6D1D1aa;
+    }
+    .product-card:hover {
+      box-shadow: 0 16px 48px 0 #FFD70066, 0 4px 16px 0 #F6D1D1cc;
+      transform: scale(1.03);
+    }
+    .product-img {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 4px 16px 0 #F6D1D144;
+    }
+    .product-info {
+      background: rgba(255,255,255,0.85);
+      border-radius: 1rem;
+      margin-top: -2rem;
+      padding: 1rem 0.5rem;
+      box-shadow: 0 2px 8px 0 #F6D1D1aa;
+    }
+    @media (max-width: 640px) {
+      .product-card { border-radius: 1rem; margin-bottom: 1.5rem; }
+      .product-img { height: 10rem !important; }
+      .product-info { margin-top: -1rem; padding: 0.5rem 0.25rem; }
+    }
+    body {
+      font-family: 'Inter', Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%);
+    }
+    .lux-heading { font-family: 'Playfair Display', 'Cinzel', serif; letter-spacing: 0.02em; }
+    .lux-body { font-family: 'Inter', Helvetica, Arial, sans-serif; }
+    .parallax-bg {
+      background: url('https://images.unsplash.com/photo-1517841905240-472c3c3d7c93?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+      background-attachment: fixed;
+    }
+    .modal-open { overflow: hidden; }
+    .modal { transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1); }
+    .modal.show { opacity: 1; transform: scale(1); }
+    .modal.hide { opacity: 0; transform: scale(0.95); }
+    .cta-pulse { animation: ctaPulse 3.5s infinite; }
+    @keyframes ctaPulse { 0%, 100% { box-shadow: 0 0 0 0 #F6D1D1; } 50% { box-shadow: 0 0 16px 4px #F6D1D1; } }
+    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .product-img { transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s cubic-bezier(.4,0,.2,1); }
+    .product-card:hover .product-img { transform: scale(1.05); box-shadow: 0 8px 32px 0 #F6D1D1aa; }
+    .product-info { transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1); transform: translateY(24px); opacity: 0; }
+    .product-card:hover .product-info { transform: translateY(0); opacity: 1; }
+    .btn { transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1); }
+    .btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px 0 #F6D1D1aa; }
+    .btn:active { transform: scale(0.97); box-shadow: 0 2px 8px 0 #F6D1D1aa; }
+    .newsletter:focus { box-shadow: 0 0 0 2px #F6D1D1, 0 0 16px 4px #fff; outline: none; transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1); }
+    .social-icon { transition: color 0.3s cubic-bezier(.4,0,.2,1); color: #222; }
+    .social-icon:hover { color: #F6D1D1; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-white text-black">
@@ -23,32 +82,59 @@
       <button id="closeAdminModal" class="absolute top-4 right-4 btn bg-gray-200 text-black px-4 py-2 rounded-full">×</button>
       <div class="lux-heading text-2xl font-semibold mb-6 text-center">Add Product</div>
       <form id="adminForm" class="flex flex-col gap-4">
-        <input type="text" id="adminName" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Product Name" required />
-        <input type="text" id="adminPrice" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Price (TZS)" required />
+        <input type="text" id="adminName"   class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Product Name" required />
+        <input type="text" id="adminPrice"  class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Price (TZS)" required />
         
-        <!-- === Updated image input area === -->
-        <div class="flex flex-col gap-2">
-          <label class="lux-body text-sm text-gray-600">Product Image</label>
-          <input type="file" id="adminImageFile" accept="image/*" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
-          <div class="text-center text-gray-500 text-sm">— or —</div>
-          <input type="text" id="adminImage" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Or enter direct Image URL" />
+        <!-- === Updated: File upload + URL fallback === -->
+        <div class="flex flex-col gap-1">
+          <label class="lux-body text-sm font-medium text-gray-700">Product Image *</label>
+          <input type="file" id="adminImageFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
+          <div class="text-center text-gray-500 text-xs my-1">— or enter direct URL below —</div>
+          <input type="text" id="adminImage" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="https://example.com/image.jpg" />
         </div>
-        
-        <input type="text" id="adminDesc" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Description" required />
-        <button type="submit" class="btn bg-gray-900 text-white rounded-full px-6 py-3 font-semibold lux-body">Add Product</button>
+
+        <input type="text" id="adminDesc"   class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Description" required />
+        <button type="submit" class="btn bg-gray-900 text-white rounded-full px-6 py-3 font-semibold lux-body mt-2">Add Product</button>
       </form>
     </div>
   </div>
 
-  <!-- Hero Section → Product Grid → About → Contact → Footer → Product Modal -->
-  <!-- (keeping your original sections unchanged) -->
+  <!-- Hero Section -->
+  <section class="relative parallax-bg h-[70vh] flex items-center justify-center">
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+    <div class="relative z-10 text-center fade-in lux-heading">
+      <div class="flex flex-col items-center justify-center">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExd2Fsa2luZy1zaG9lcy1naWZfYXJ0L2xvZ28tZmlubG9nby9zaGVzdGVwcy9zaG9lcy1sb2dvLmdpZg/giphy.gif" alt="Shoes Walking Animation" class="mx-auto mb-4 w-48 md:w-72 rounded-xl shadow-2xl border-4 border-white animate-fadeInLogo" style="animation: fadeInLogo 3s ease-in-out forwards;" />
+        <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 logo-fade lux-heading" style="opacity:0;animation: logoReveal 3s 2.5s forwards;">She Steps</h1>
+      </div>
+      <p class="text-2xl md:text-4xl text-white mb-8">Step into Luxury</p>
+      <button id="shopBtn" class="btn cta-pulse px-8 py-3 rounded-full bg-white text-black font-semibold text-lg shadow-lg lux-body">Shop Collection</button>
+    </div>
+    <style>
+      @keyframes fadeInLogo { 0% { opacity: 0; transform: translateY(-40px); } 100% { opacity: 1; transform: translateY(0); } }
+      @keyframes logoReveal { 0% { opacity: 0; } 100% { opacity: 1; } }
+    </style>
+  </section>
+
+  <!-- Product Grid -->
+  <section id="collection" class="py-16 bg-white fade-in">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="lux-heading text-3xl md:text-5xl font-bold text-center mb-12">Our Signature Collection</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10" id="productGrid">
+        <!-- Product cards will be rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- About, Contact, Footer, Product Modal sections remain unchanged -->
+  <!-- ... (copy your original sections here: About, Contact, Footer, Product Modal) ... -->
 
   <!-- FontAwesome -->
   <script src="https://kit.fontawesome.com/2b2e6e7e2a.js" crossorigin="anonymous"></script>
 
   <!-- Main JavaScript -->
   <script>
-    // ── Admin modal open/close (unchanged) ──
+    // Admin modal toggle (unchanged)
     document.getElementById('adminBtn').addEventListener('click', () => {
       const modal = document.getElementById('adminModal');
       document.body.classList.add('modal-open');
@@ -67,7 +153,7 @@
       }, 400);
     });
 
-    // ── Updated form submission with file upload ──
+    // ── Updated: Submit with file upload support ──
     document.getElementById('adminForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -79,37 +165,39 @@
       const urlInput  = document.getElementById('adminImage').value.trim();
       let imageUrl = urlInput;
 
-      // Priority: uploaded file > pasted URL
-      if (fileInput.files.length > 0) {
+      // 1. Upload file if selected (takes priority)
+      if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
         const formData = new FormData();
         formData.append('file', file);
 
         try {
-          const res = await fetch('http://localhost:3001/upload', {
+          const uploadRes = await fetch('http://localhost:3001/upload', {
             method: 'POST',
             body: formData
           });
 
-          if (!res.ok) throw new Error("Upload failed");
+          if (!uploadRes.ok) throw new Error(`Upload failed (${uploadRes.status})`);
 
-          const data = await res.json();
-          imageUrl = data.url;  // Backend must return { "url": "..." }
+          const data = await uploadRes.json();
+          if (!data.url) throw new Error("Server did not return a URL");
+
+          imageUrl = data.url;
         } catch (err) {
-          alert("Image upload failed: " + err.message);
-          return;
+          alert("Image upload failed:\n" + err.message + "\n\nFalling back to URL field if provided.");
+          // continue → will try urlInput
         }
       }
 
-      // Require an image one way or another
+      // 2. Final check: we need an image one way or another
       if (!imageUrl) {
-        alert("Please provide an image (upload a file or enter a URL)");
+        alert("Please either:\n• Upload an image file, or\n• Paste a direct image URL");
         return;
       }
 
-      // Create product
+      // 3. Create product
       try {
-        const prodRes = await fetch('http://localhost:3001/products', {
+        const res = await fetch('http://localhost:3001/products', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -121,20 +209,20 @@
           })
         });
 
-        if (!prodRes.ok) throw new Error("Could not add product");
+        if (!res.ok) throw new Error("Product creation failed");
 
-        const prod = await prodRes.json();
-        products.push(prod);
+        const newProduct = await res.json();
+        products.push(newProduct);
         renderProducts();
         document.getElementById('closeAdminModal').click();
         this.reset();
       } catch (err) {
-        alert("Failed to add product: " + err.message);
+        alert("Failed to add product:\n" + err.message);
       }
     });
 
-    // ── Rest of your original script remains the same ──
-    // (fetchProducts, renderProducts, cart logic, modals, observers, etc.)
+    // ── Rest of your original script (fade-in, smooth scroll, parallax, lazy load, fetchProducts, renderProducts, cart, modals, etc.) ──
+    // Paste the rest of your <script> content here (from // Fade-in on load ... to the end)
 
     let products = [];
     async function fetchProducts() {
@@ -143,7 +231,7 @@
         products = await res.json();
         renderProducts();
       } catch (err) {
-        console.error("Failed to load products", err);
+        console.error(err);
       }
     }
 
@@ -160,13 +248,13 @@
           <button class="btn mt-4 px-6 py-2 rounded-full bg-[#C2B280] text-black font-semibold shadow-lg lux-body add-to-cart">Add to Cart</button>
         </div>
       `).join('');
-      // Re-attach lazy loading
       document.querySelectorAll('.product-img').forEach(img => lazyObserver.observe(img));
     }
 
     fetchProducts();
 
-    // ... (rest of your JS: cart, product modal, observers, smooth scroll, etc.) ...
+    // ... paste remaining original JS here (cart logic, product modal, observers, etc.) ...
   </script>
+
 </body>
 </html>
