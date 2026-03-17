@@ -29,7 +29,9 @@ app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 images_path = os.path.join(frontend_path, "images")
 if not os.path.exists(images_path):
     os.makedirs(images_path)
-app.mount("/images", StaticFiles(directory=images_path), name="images")
+@app.get("/")
+async def serve_frontend():
+    return FileResponse(os.path.join("frontend", "index.html"))
 
 # Database setup
 DATABASE_URL = "sqlite:///products.db"
