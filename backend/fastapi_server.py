@@ -32,6 +32,4 @@ def add_product(product: Product):
     products.append(product)
     return product
 
-@app.get("/")
-def root():
-    return {"message": "FastAPI backend running!"}
+
