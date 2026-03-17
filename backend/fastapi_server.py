@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -12,16 +13,16 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"] ,
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 
+# Frontend path
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
 
-
+# Product model
 class Product(BaseModel):
     id: int
     name: str
@@ -29,17 +30,17 @@ class Product(BaseModel):
     image: str
     desc: str
 
-products: List[Product] = []
 
+# In-memory products list
+products: List[Product] = []
 
 
 @app.get("/products", response_model=List[Product])
 def get_products():
     return products
 
+
 @app.post("/products", response_model=Product)
 def add_product(product: Product):
     products.append(product)
     return product
-
-
