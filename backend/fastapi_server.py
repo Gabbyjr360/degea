@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 import os
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
