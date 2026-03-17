@@ -14,6 +14,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+frontend_path = os.path.join(os.path.dirname(__file__), "..", "frontend")
+app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+
 class Product(BaseModel):
     id: int
     name: str
@@ -22,6 +25,8 @@ class Product(BaseModel):
     desc: str
 
 products: List[Product] = []
+
+
 
 @app.get("/products", response_model=List[Product])
 def get_products():
