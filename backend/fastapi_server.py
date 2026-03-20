@@ -33,6 +33,10 @@ if not os.path.exists(images_path):
 async def serve_frontend():
     return FileResponse(os.path.join("frontend", "index.html"))
 
+@app.get("/")
+async def serve_frontend():
+    return FileResponse(os.path.join("frontend", "index.html"))
+
 # Database setup
 DATABASE_URL = "sqlite:///products.db"
 engine = create_engine(DATABASE_URL, echo=False)
