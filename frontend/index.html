@@ -5,20 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>She Steps – Step into Luxury</title>
 
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Cinzel:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* YOUR ORIGINAL DESIGN (UNCHANGED) */
+    .gold { color: #C2B280; }
+    .card-gradient { background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%); }
+
+    .product-card {
+      transition: 0.4s;
+      border-radius: 1.5rem;
+      background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
+      box-shadow: 0 8px 32px #C2B28033;
+    }
+
+    .product-card:hover { transform: scale(1.03); }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%);
+    }
+
+    .lux-heading { font-family: 'Playfair Display', serif; }
+  </style>
 </head>
 
-<body class="bg-white text-black">
+<body class="min-h-screen flex flex-col bg-white text-black">
 
-<!-- ADMIN -->
-<button id="adminBtn" class="fixed bottom-6 right-6 bg-black text-white px-4 py-2 rounded-full">
+<!-- ADMIN BUTTON -->
+<button id="adminBtn" class="fixed bottom-20 right-6 z-40 bg-gray-900 text-white px-6 py-3 rounded-full">
   Admin
 </button>
 
-<div id="adminModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-lg w-80">
-    <form id="adminForm" class="flex flex-col gap-3">
-      <input id="adminName" placeholder="Name" required>
+<!-- ADMIN MODAL -->
+<div id="adminModal" style="display:none;" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-xl w-96">
+    <button id="closeAdminModal">×</button>
+
+    <form id="adminForm">
+      <input id="adminName" placeholder="Product Name" required>
       <input id="adminPrice" placeholder="Price" required>
 
       <input type="file" id="adminImageFile">
@@ -31,110 +58,116 @@
   </div>
 </div>
 
-<!-- PRODUCTS -->
-<div id="productGrid" class="grid grid-cols-2 gap-4 p-6"></div>
+<!-- HERO -->
+<section class="h-[70vh] flex items-center justify-center text-center">
+  <div>
+    <h1 class="text-5xl">She Steps</h1>
+    <p>Step into Luxury</p>
+  </div>
+</section>
 
-<!-- MODAL -->
-<div id="productModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-  <div class="bg-white p-6 rounded">
-    <img id="modalImg" class="w-40 h-40 object-cover">
+<!-- PRODUCTS -->
+<section class="p-10">
+  <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+</section>
+
+<!-- PRODUCT MODAL -->
+<div id="productModal" style="display:none;" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+  <div class="bg-white p-6 text-center">
+    <img id="modalImg" class="w-40 h-40">
     <h2 id="modalName"></h2>
     <p id="modalPrice"></p>
     <p id="modalDesc"></p>
+    <button id="closeModal">Close</button>
   </div>
 </div>
 
 <script>
-let products = []
 
-// ADMIN OPEN
-document.getElementById('adminBtn').onclick = () => {
-  document.getElementById('adminModal').classList.remove('hidden')
-}
+let products = [];
+
+// OPEN ADMIN
+adminBtn.onclick = () => adminModal.style.display = 'flex';
+closeAdminModal.onclick = () => adminModal.style.display = 'none';
+
+// ADD PRODUCT
+adminForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  let image = adminImage.value;
+
+  // upload file if exists
+  if (adminImageFile.files.length > 0) {
+    const fd = new FormData();
+    fd.append("file", adminImageFile.files[0]);
+
+    const res = await fetch('/upload-image', {
+      method: 'POST',
+      body: fd
+    });
+
+    const data = await res.json();
+    image = data.url;
+  }
+
+  const fd = new FormData();
+  fd.append("name", adminName.value);
+  fd.append("price", adminPrice.value);
+  fd.append("image", image);
+  fd.append("desc", adminDesc.value);
+
+  const res = await fetch('/products', {
+    method: 'POST',
+    body: fd
+  });
+
+  const newProduct = await res.json();
+  products.push(newProduct);
+  renderProducts();
+
+  adminModal.style.display = 'none';
+});
 
 // FETCH PRODUCTS
-async function fetchProducts(){
-  const res = await fetch('http://localhost:3001/products')
-  products = await res.json()
-  renderProducts()
+async function fetchProducts() {
+  const res = await fetch('/products');
+  products = await res.json();
+  renderProducts();
 }
 
-// RENDER
-function renderProducts(){
-  const grid = document.getElementById('productGrid')
-
-  grid.innerHTML = products.map((p,i)=>`
-    <div class="border p-2 cursor-pointer" data-id="${i}">
-      <img data-src="${p.image}" class="product-img w-full h-40 object-cover">
+// RENDER PRODUCTS
+function renderProducts() {
+  productGrid.innerHTML = products.map((p, i) => `
+    <div class="product-card p-4 cursor-pointer" data-i="${i}">
+      
+      <!-- FIXED IMAGE -->
+      <img src="${p.image}" class="w-full h-40 object-cover mb-2" alt="${p.name}">
+      
       <h3>${p.name}</h3>
       <p>${p.price}</p>
     </div>
-  `).join('')
+  `).join('');
 
-  document.querySelectorAll('.product-img').forEach(img=>{
-    img.src = img.dataset.src
-  })
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.onclick = () => {
+      const p = products[card.dataset.i];
+
+      modalImg.src = p.image;   // FIXED
+      modalName.textContent = p.name;
+      modalPrice.textContent = p.price;
+      modalDesc.textContent = p.desc;
+
+      productModal.style.display = 'flex';
+    };
+  });
 }
 
-// ADD PRODUCT (FIXED)
-document.getElementById('adminForm').onsubmit = async (e)=>{
-  e.preventDefault()
+// CLOSE MODAL
+closeModal.onclick = () => productModal.style.display = 'none';
 
-  let imageUrl = document.getElementById('adminImage').value
-  const file = document.getElementById('adminImageFile').files[0]
+// INIT
+fetchProducts();
 
-  // upload file if exists
-  if(file){
-    const fd = new FormData()
-    fd.append('file', file)
-
-    const res = await fetch('http://localhost:3001/upload-image',{
-      method:'POST',
-      body: fd
-    })
-
-    const data = await res.json()
-    imageUrl = data.url
-  }
-
-  if(!imageUrl){
-    alert('Add image')
-    return
-  }
-
-  const fd = new FormData()
-  fd.append('name', document.getElementById('adminName').value)
-  fd.append('price', document.getElementById('adminPrice').value)
-  fd.append('image', imageUrl)
-  fd.append('desc', document.getElementById('adminDesc').value)
-
-  const res = await fetch('http://localhost:3001/products',{
-    method:'POST',
-    body: fd
-  })
-
-  const newProd = await res.json()
-  products.push(newProd)
-
-  renderProducts()
-}
-
-// CLICK PRODUCT (FIXED)
-document.getElementById('productGrid').onclick = (e)=>{
-  const card = e.target.closest('[data-id]')
-  if(!card) return
-
-  const p = products[card.dataset.id]
-
-  document.getElementById('modalImg').src = p.image
-  document.getElementById('modalName').innerText = p.name
-  document.getElementById('modalPrice').innerText = p.price
-  document.getElementById('modalDesc').innerText = p.desc
-
-  document.getElementById('productModal').classList.remove('hidden')
-}
-
-fetchProducts()
 </script>
 
 </body>
