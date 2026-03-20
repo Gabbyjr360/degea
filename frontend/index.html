@@ -4,171 +4,203 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>She Steps – Step into Luxury</title>
-
   <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900|Cinzel:700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Inter:400,500,700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    /* YOUR ORIGINAL DESIGN (UNCHANGED) */
+    /* ── Original Styles ── */
     .gold { color: #C2B280; }
+    .gold-bg { background: linear-gradient(90deg, #fff 0%, #C2B280 100%); }
+    .gold-border { border: 1px solid #C2B280; }
+    .gold-shadow { box-shadow: 0 4px 24px 0 #C2B28044; }
     .card-gradient { background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%); }
-
     .product-card {
-      transition: 0.4s;
+      transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
       border-radius: 1.5rem;
       background: linear-gradient(135deg, #fff 60%, #F6D1D1 100%);
-      box-shadow: 0 8px 32px #C2B28033;
+      box-shadow: 0 8px 32px 0 #C2B28033, 0 2px 8px 0 #F6D1D1aa;
     }
-
-    .product-card:hover { transform: scale(1.03); }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%);
+    .product-card:hover {
+      box-shadow: 0 16px 48px 0 #FFD70066, 0 4px 16px 0 #F6D1D1cc;
+      transform: scale(1.03);
     }
-
-    .lux-heading { font-family: 'Playfair Display', serif; }
+    .product-img {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 4px 16px 0 #F6D1D144;
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1), box-shadow 0.4s cubic-bezier(.4,0,.2,1);
+    }
+    .product-card:hover .product-img { transform: scale(1.05); box-shadow: 0 8px 32px 0 #F6D1D1aa; }
+    .product-info {
+      background: rgba(255,255,255,0.85);
+      border-radius: 1rem;
+      margin-top: -2rem;
+      padding: 1rem 0.5rem;
+      box-shadow: 0 2px 8px 0 #F6D1D1aa;
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1), opacity 0.4s cubic-bezier(.4,0,.2,1);
+      transform: translateY(24px);
+      opacity: 0;
+    }
+    .product-card:hover .product-info { transform: translateY(0); opacity: 1; }
+    @media (max-width: 640px) {
+      .product-card { border-radius: 1rem; margin-bottom: 1.5rem; }
+      .product-img { height: 10rem !important; }
+      .product-info { margin-top: -1rem; padding: 0.5rem 0.25rem; }
+    }
+    body { font-family: 'Inter', Helvetica, Arial, sans-serif; background: linear-gradient(180deg, #fff 0%, #F6D1D1 100%); }
+    .lux-heading { font-family: 'Playfair Display', 'Cinzel', serif; letter-spacing: 0.02em; }
+    .lux-body { font-family: 'Inter', Helvetica, Arial, sans-serif; }
+    .parallax-bg { background: url('https://images.unsplash.com/photo-1517841905240-472c3c3d7c93?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat; background-attachment: fixed; }
+    .modal-open { overflow: hidden; }
+    .modal { transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1); }
+    .modal.show { opacity: 1; transform: scale(1); }
+    .modal.hide { opacity: 0; transform: scale(0.95); }
+    .cta-pulse { animation: ctaPulse 3.5s infinite; }
+    @keyframes ctaPulse { 0%, 100% { box-shadow: 0 0 0 0 #F6D1D1; } 50% { box-shadow: 0 0 16px 4px #F6D1D1; } }
+    .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.6s cubic-bezier(.4,0,.2,1), transform 0.6s cubic-bezier(.4,0,.2,1); }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .btn { transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s cubic-bezier(.4,0,.2,1); }
+    .btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px 0 #F6D1D1aa; }
+    .btn:active { transform: scale(0.97); box-shadow: 0 2px 8px 0 #F6D1D1aa; }
+    .newsletter:focus { box-shadow: 0 0 0 2px #F6D1D1, 0 0 16px 4px #fff; outline: none; transition: box-shadow 0.4s cubic-bezier(.4,0,.2,1); }
+    .social-icon { transition: color 0.3s cubic-bezier(.4,0,.2,1); color: #222; }
+    .social-icon:hover { color: #F6D1D1; }
   </style>
 </head>
+<body class="min-h-screen flex flex-col">
 
-<body class="min-h-screen flex flex-col bg-white text-black">
+<!-- Admin Button -->
+<button id="adminBtn" class="fixed bottom-20 right-6 z-40 btn bg-gray-900 text-white rounded-full flex items-center px-6 py-3 lux-body text-lg">Admin</button>
 
-<!-- ADMIN BUTTON -->
-<button id="adminBtn" class="fixed bottom-20 right-6 z-40 bg-gray-900 text-white px-6 py-3 rounded-full">
-  Admin
-</button>
-
-<!-- ADMIN MODAL -->
-<div id="adminModal" style="display:none;" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-xl w-96">
-    <button id="closeAdminModal">×</button>
-
-    <form id="adminForm">
-      <input id="adminName" placeholder="Product Name" required>
-      <input id="adminPrice" placeholder="Price" required>
-
-      <input type="file" id="adminImageFile">
-      <input id="adminImage" placeholder="Image URL">
-
-      <input id="adminDesc" placeholder="Description" required>
-
-      <button>Add Product</button>
+<!-- Admin Modal -->
+<div id="adminModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 modal hide" style="display:none;">
+  <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full relative lux-body">
+    <button id="closeAdminModal" class="absolute top-4 right-4 btn bg-gray-200 text-black px-4 py-2 rounded-full">×</button>
+    <div class="lux-heading text-2xl font-semibold mb-6 text-center">Add Product</div>
+    <form id="adminForm" class="flex flex-col gap-4">
+      <input type="text" id="adminName" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Product Name" required />
+      <input type="text" id="adminPrice" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Price (TZS)" required />
+      <div class="flex flex-col gap-1">
+        <label class="lux-body text-sm font-medium text-gray-700">Product Image *</label>
+        <input type="file" id="adminImageFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200" />
+        <div class="text-center text-gray-500 text-xs my-1">— or enter direct URL below —</div>
+        <input type="text" id="adminImage" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="https://example.com/image.jpg" />
+      </div>
+      <input type="text" id="adminDesc" class="px-4 py-2 rounded border border-gray-300 lux-body text-lg" placeholder="Description" required />
+      <button type="submit" class="btn bg-gray-900 text-white rounded-full px-6 py-3 font-semibold lux-body mt-2">Add Product</button>
     </form>
   </div>
 </div>
 
-<!-- HERO -->
-<section class="h-[70vh] flex items-center justify-center text-center">
-  <div>
-    <h1 class="text-5xl">She Steps</h1>
-    <p>Step into Luxury</p>
+<!-- Hero -->
+<section class="relative parallax-bg h-[70vh] flex items-center justify-center">
+  <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+  <div class="relative z-10 text-center fade-in lux-heading">
+    <div class="flex flex-col items-center justify-center">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 lux-heading">She Steps</h1>
+      <p class="text-2xl md:text-4xl text-white mb-8">Step into Luxury</p>
+      <button id="shopBtn" class="btn cta-pulse px-8 py-3 rounded-full bg-white text-black font-semibold text-lg shadow-lg lux-body">Shop Collection</button>
+    </div>
   </div>
 </section>
 
-<!-- PRODUCTS -->
-<section class="p-10">
-  <div id="productGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+<!-- Product Grid -->
+<section id="collection" class="py-16 bg-white fade-in">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="lux-heading text-3xl md:text-5xl font-bold text-center mb-12">Our Signature Collection</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10" id="productGrid"></div>
+  </div>
 </section>
 
-<!-- PRODUCT MODAL -->
-<div id="productModal" style="display:none;" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
-  <div class="bg-white p-6 text-center">
-    <img id="modalImg" class="w-40 h-40">
-    <h2 id="modalName"></h2>
-    <p id="modalPrice"></p>
-    <p id="modalDesc"></p>
-    <button id="closeModal">Close</button>
+<!-- About -->
+<section class="py-16 bg-gray-50 fade-in">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="lux-heading text-4xl font-bold mb-6">About She Steps</h2>
+    <p class="lux-body text-lg text-gray-700">She Steps crafts luxury footwear blending elegance with comfort. Each piece is designed for those who step with confidence.</p>
   </div>
-</div>
+</section>
+
+<!-- Contact -->
+<section class="py-16 bg-white fade-in">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="lux-heading text-4xl font-bold mb-6">Contact Us</h2>
+    <p class="lux-body text-lg text-gray-700 mb-4">Email: info@shesteps.com</p>
+    <p class="lux-body text-lg text-gray-700">Phone: +255 123 456 789</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-8 bg-gray-900 text-white">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+    <p class="lux-body">&copy; 2026 She Steps. All rights reserved.</p>
+    <div class="flex gap-4 mt-4 md:mt-0">
+      <a href="#" class="social-icon text-white"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="social-icon text-white"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-icon text-white"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://kit.fontawesome.com/2b2e6e7e2a.js" crossorigin="anonymous"></script>
 
 <script>
+  // Fade-in
+  window.addEventListener('load', () => document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible')));
 
-let products = [];
+  // Admin modal toggle
+  document.getElementById('adminBtn').addEventListener('click', () => {
+    const modal = document.getElementById('adminModal');
+    document.body.classList.add('modal-open');
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.remove('hide'), 10);
+    modal.classList.add('show');
+  });
+  document.getElementById('closeAdminModal').addEventListener('click', () => {
+    const modal = document.getElementById('adminModal');
+    modal.classList.remove('show');
+    modal.classList.add('hide');
+    setTimeout(() => {
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }, 400);
+  });
 
-// OPEN ADMIN
-adminBtn.onclick = () => adminModal.style.display = 'flex';
-closeAdminModal.onclick = () => adminModal.style.display = 'none';
+  // Products array
+  let products = [
+    {id:1,name:"Luxury Heel",price:"450,000 TZS",desc:"Elegant evening heels",image:"https://images.unsplash.com/photo-1593032465175-3f91458e53b9?auto=format&fit=crop&w=800&q=80"},
+    {id:2,name:"Classic Loafers",price:"350,000 TZS",desc:"Comfortable classic loafers",image:"https://images.unsplash.com/photo-1589187150602-bf12229e33e3?auto=format&fit=crop&w=800&q=80"}
+  ];
 
-// ADD PRODUCT
-adminForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  let image = adminImage.value;
-
-  // upload file if exists
-  if (adminImageFile.files.length > 0) {
-    const fd = new FormData();
-    fd.append("file", adminImageFile.files[0]);
-
-    const res = await fetch('/upload-image', {
-      method: 'POST',
-      body: fd
-    });
-
-    const data = await res.json();
-    image = data.url;
+  const productGrid = document.getElementById('productGrid');
+  function renderProducts() {
+    productGrid.innerHTML = products.map((prod, idx) => `
+      <div class="product-card flex flex-col items-center cursor-pointer card-gradient p-4" data-product="${idx}">
+        <img class="product-img w-full h-64 object-cover mb-4" src="${prod.image}" alt="${prod.name}" />
+        <div class="product-info text-center">
+          <div class="lux-heading text-xl font-semibold mb-2 gold">${prod.name}</div>
+          <div class="lux-body text-lg gold">${prod.price}</div>
+          <div class="lux-body text-sm text-gray-700 mt-2">${prod.desc}</div>
+        </div>
+        <button class="btn mt-4 px-6 py-2 rounded-full bg-[#C2B280] text-black font-semibold shadow-lg lux-body add-to-cart">Add to Cart</button>
+      </div>
+    `).join('');
   }
-
-  const fd = new FormData();
-  fd.append("name", adminName.value);
-  fd.append("price", adminPrice.value);
-  fd.append("image", image);
-  fd.append("desc", adminDesc.value);
-
-  const res = await fetch('/products', {
-    method: 'POST',
-    body: fd
-  });
-
-  const newProduct = await res.json();
-  products.push(newProduct);
   renderProducts();
 
-  adminModal.style.display = 'none';
-});
-
-// FETCH PRODUCTS
-async function fetchProducts() {
-  const res = await fetch('/products');
-  products = await res.json();
-  renderProducts();
-}
-
-// RENDER PRODUCTS
-function renderProducts() {
-  productGrid.innerHTML = products.map((p, i) => `
-    <div class="product-card p-4 cursor-pointer" data-i="${i}">
-      
-      <!-- FIXED IMAGE -->
-      <img src="${p.image}" class="w-full h-40 object-cover mb-2" alt="${p.name}">
-      
-      <h3>${p.name}</h3>
-      <p>${p.price}</p>
-    </div>
-  `).join('');
-
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.onclick = () => {
-      const p = products[card.dataset.i];
-
-      modalImg.src = p.image;   // FIXED
-      modalName.textContent = p.name;
-      modalPrice.textContent = p.price;
-      modalDesc.textContent = p.desc;
-
-      productModal.style.display = 'flex';
-    };
+  // Admin form submit
+  document.getElementById('adminForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const name = document.getElementById('adminName').value.trim();
+    const price = document.getElementById('adminPrice').value.trim();
+    const desc = document.getElementById('adminDesc').value.trim();
+    const url = document.getElementById('adminImage').value.trim();
+    if(!name || !price || !desc || !url){ alert("Please fill all fields"); return; }
+    const newProd = {id: products.length+1, name, price, desc, image: url};
+    products.push(newProd);
+    renderProducts();
+    document.getElementById('closeAdminModal').click();
+    this.reset();
   });
-}
-
-// CLOSE MODAL
-closeModal.onclick = () => productModal.style.display = 'none';
-
-// INIT
-fetchProducts();
-
 </script>
-
 </body>
 </html>
