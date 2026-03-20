@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from sqlmodel import SQLModel, Field, Session, create_engine, select
 from typing import Optional, List
 import os
@@ -18,47 +19,60 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# Frontend path
-frontend_path = os.path.join(os.path.dirname(__file__), "frontend")
-if not os.path.exists(frontend_path):
-    os.makedirs(frontend_path)
+# =========================
+# PATHS (FIXED)
+# =========================
 
-# Serve frontend
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
-# Serve uploaded images
+# Correct frontend path (go OUT of backend folder)
+BASE_DIR = os.path.dirname(__file__)
+frontend_path = os.path.join(BASE_DIR, "..", "frontend")
+
+# Ensure frontend exists
+os.makedirs(frontend_path, exist_ok=True)
+
+# Images folder
 images_path = os.path.join(frontend_path, "images")
-if not os.path.exists(images_path):
-    os.makedirs(images_path)
+os.makedirs(images_path, exist_ok=True)
+
+# =========================
+# STATIC FILES (FIXED)
+# =========================
+
+# Serve static frontend files (css/js)
+app.mount("/static", StaticFiles(directory=frontend_path), name="static")
+
+# Serve uploaded images
+app.mount("/images", StaticFiles(directory=images_path), name="images")
+
+# Root route (serve index.html)
 @app.get("/")
 async def serve_frontend():
-    return FileResponse(os.path.join("frontend", "index.html"))
+    return FileResponse(os.path.join(frontend_path, "index.html"))
 
-@app.get("/")
-async def serve_frontend():
-    return FileResponse(os.path.join("frontend", "index.html"))
+# =========================
+# DATABASE
+# =========================
 
-# Database setup
 DATABASE_URL = "sqlite:///products.db"
 engine = create_engine(DATABASE_URL, echo=False)
 
-# Models
 class Product(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str
     price: str
-    image: str  # image URL
+    image: str
     desc: str
 
-# Create database tables
 SQLModel.metadata.create_all(engine)
 
-# Routes
+# =========================
+# ROUTES
+# =========================
 
 @app.get("/products", response_model=List[Product])
 def get_products():
     with Session(engine) as session:
-        products = session.exec(select(Product)).all()
-        return products
+        return session.exec(select(Product)).all()
 
 @app.post("/products", response_model=Product)
 def add_product(
@@ -74,10 +88,15 @@ def add_product(
         session.refresh(product)
         return product
 
+# =========================
+# IMAGE UPLOAD
+# =========================
+
 @app.post("/upload-image")
 async def upload_image(file: UploadFile = File(...)):
-    # Save file to images folder
     file_location = os.path.join(images_path, file.filename)
-    with open(file_location, "wb+") as file_object:
-        shutil.copyfileobj(file.file, file_object)
+
+    with open(file_location, "wb+") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
     return {"url": f"/images/{file.filename}"}
